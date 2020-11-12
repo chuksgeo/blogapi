@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 
 
@@ -25,6 +25,8 @@ Route::namespace('App\Http\Controllers\Api')->group(function(){
      //using Resources 
     
     Route::apiResource('/categories', 'CategoryController');
+    Route::apiResource('/posts', 'PostController');
+    Route::apiResource('/comments', 'CommentController');
 
 });
 

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Post;
+use App\Http\Resources\PostResource;
 
 class PostController extends Controller
 {
@@ -15,6 +17,8 @@ class PostController extends Controller
     public function index()
     {
         //
+        //return response()->json(['data' => Post::all()], 200);
+        return PostResource::collection(Post::paginate(20));
     }
 
     /**
@@ -26,6 +30,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //
+        
     }
 
     /**
@@ -36,7 +41,8 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        // show a single post using id
+        return PostResource::collection(Post::whereId($id)->get());
     }
 
     /**
