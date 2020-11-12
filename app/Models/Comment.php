@@ -21,7 +21,7 @@ class Comment extends Model
         'customer', 'text', 'likes',
     ];
 
-    public function COmmentPosts(){
+    public function CommentPosts(){
 
         return $this->belongsTo(Post::class);
         

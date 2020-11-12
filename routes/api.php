@@ -18,4 +18,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-ROute::apiResource('/categories', 'CategoryController');
+
+
+
+Route::namespace('App\Http\Controllers\Api')->group(function(){
+     //using Resources 
+    
+    Route::apiResource('/categories', 'CategoryController');
+
+});
+
+
+ 
