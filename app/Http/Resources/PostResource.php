@@ -17,10 +17,14 @@ class PostResource extends JsonResource
         return [
             
         'title'     => $this->title,
-        'preview'   => $this->summary,
         'content'   => $this->content,
         'creator'   => $this->user_id,
-        
+        'categoies' => CategoryResource::collection($this->categories),
+        'rating'    => $this->comments->count() > 0 ? round($this->comments->sum('likes')/ $this->comments->count()) : 'No Review yet',
+        'likes'     => $this->comments->count(),
+        'comments'  => [
+            'comment'  => route ('comments.index', $this->id)
+        ]
         ];
     }
 }

@@ -18,10 +18,10 @@ class Comment extends Model
      * @var array
      */
     protected $fillable = [
-        'customer', 'text', 'likes',
+        'customer', 'text', 'likes', //'post_id'
     ];
 
-    public function CommentPosts(){
+    public function Posts(){
 
         return $this->belongsTo(Post::class);
         

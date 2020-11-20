@@ -24,7 +24,7 @@ class CommentFactory extends Factory
     {
         return [
             //
-            'posts_id'=> function(){
+            'post_id'=> function(){
                 return Post::all()->random();
             },
             'customer' =>$this->faker->name,

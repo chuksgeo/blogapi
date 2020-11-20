@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Http\Request;
+use App\Http\Requests\PostRequest;
 use App\Http\Resources\PostResource;
+use App\Http\Resources\PostCollection;
 
 class PostController extends Controller
 {
@@ -18,7 +20,7 @@ class PostController extends Controller
     {
         //
         //return response()->json(['data' => Post::all()], 200);
-        return PostResource::collection(Post::paginate(20));
+        return PostCollection::collection(Post::paginate(20));
     }
 
     /**
@@ -27,10 +29,17 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
-        //
-        
+        $post = Post::create([
+            'title'     => $request->get('title'),
+            'summary'   => $request->get('summary'),
+            'content'   => $request->get('content'),
+            'user_id'   => $request->get('user_id'),
+            // 'category'  => $post->categories()->sync($request->get('categories')),
+        ]);
+
+        return response()->json(['data' => new PostResource($post)], 200);   
     }
 
     /**
@@ -39,10 +48,10 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Post $post)
     {
         // show a single post using id
-        return PostResource::collection(Post::whereId($id)->get());
+        return response()->json(['data' => new PostResource($post)], 200);
     }
 
     /**
@@ -52,9 +61,11 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,Post $post)
     {
-        //
+        $post->update($request->all());
+    
+        return response()->json(['data' => new PostResource($post)], 200);   
     }
 
     /**

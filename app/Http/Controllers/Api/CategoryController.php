@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\PostRequest;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use App\Http\Resources\CategoryResource;
+use Symfony\Component\HttpFoundation\Response;
 
 class CategoryController extends Controller
 {
@@ -17,7 +19,6 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        // return response()->json(['data' => Category::all()], 200);
         return categoryResource::collection(Category::get());
     }
 
@@ -29,23 +30,20 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        // $category = $category = Category::create(['name' => $request->get('name')]);
+        $category = Category::create(['name' => $request->get('name')]);
         
-        // return categoryResource::collection(Category::get($category));
-    
+        return response()->json(['data' => new CategoryResource($category)], 200);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $category)
     {
-        // show a single category using id
-        // return response()->json(['data' => Category::whereId($id)->get()], 200);
-        return categoryResource::collection(Category::whereId($id)->get());
+        return response()->json(['data' => new CategoryResource($category)], 200);
     }
 
     /**
@@ -55,16 +53,12 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CategoryRequest $request, $id)
-    {
-        //
+    public function update(CategoryRequest $request,Category $category)
+    {   
         // $category = Category::findOrFail($id);
-
-        // $category = $category->update($request->all());
-
-        // return categoryResource::collection($category);
-
-
+        $category->update($request->all());
+    
+        return response()->json(['data' => new CategoryResource($category)], 200);
     }
 
     /**
@@ -73,8 +67,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        return response()->json(['data' => null ], 200);
     }
 }

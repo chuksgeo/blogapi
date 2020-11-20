@@ -24,9 +24,15 @@ use Illuminate\Support\Facades\Route;
 Route::namespace('App\Http\Controllers\Api')->group(function(){
      //using Resources 
     
-    Route::apiResource('/categories', 'CategoryController');
-    Route::apiResource('/posts', 'PostController');
-    Route::apiResource('/comments', 'CommentController');
+    Route::apiResource('/categories', 'CategoryController');    //Route for Categories
+    Route::apiResource('/posts', 'PostController');             //Route for Post
+
+    Route::group(['prefix' => '/posts'], function () {
+        Route::apiResource('/{post}/comments', 'CommentController');    //Route For Comments
+    });
+
+    
+    // Route::apiResource('/comments', 'CommentController');
 
 });
 

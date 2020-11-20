@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\CommentRequest;
 use App\Http\Resources\CommentResource;
 use App\Models\Comment;
+use App\Models\Post;
 
 class CommentController extends Controller
 {
@@ -14,10 +16,14 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Post $post)
     {
         //
-        return CommentResource::collection(Comment::paginate(20));
+        if($post->comments->count() > 0){
+            return CommentResource::collection($post->comments);
+        }else{
+            return response()->json(['data' => 'No Comment Yet'], 200,);
+        }
     }
 
     /**
@@ -26,20 +32,29 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CommentRequest $request)
     {
-        //
+        $comment = Comment::create([
+            'post_id'   => $request->get('post_id'),
+            'customer'  => $request->get('customer'),
+            'text'      => $request->get('text'),
+            'likes'     => $request->get('like'),
+        ]);
+        return response()->json(['data' => new CommentResource($comment)], 200);
+        
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $comment
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Post $post,Comment $comment)
     {
-        //
+
+        return response()->json(['data' =>  new CommentResource($comment)], 200);
+        
     }
 
     /**
@@ -49,9 +64,12 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,Post $post,Comment $comment)
     {
-        //
+        $comment->update($request->all());
+    
+        return response()->json(['data' =>  new CommentResource($comment)], 200); 
+        
     }
 
     /**

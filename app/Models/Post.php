@@ -13,13 +13,22 @@ class Post extends Model
 
     protected $guarded = ['id'];
 
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
+    // protected $attributes = [
+    //     'user_id' => null,
+    // ];
+
      /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'title', 'summary', 'content',
+        'title', 'summary', 'content', 'user_id'
     ];
 
         
