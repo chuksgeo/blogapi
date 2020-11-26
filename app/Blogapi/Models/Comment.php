@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Models;
+namespace App\Blogapi\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Post;
+use App\Blogapi\Models\Post;
 
-class Category extends Model
+class Comment extends Model
 {
     use HasFactory;
 
@@ -17,11 +17,13 @@ class Category extends Model
      *
      * @var array
      */
-    // protected $fillable = ['name'];
+    protected $fillable = [
+        'customer', 'text', 'likes', //'post_id'
+    ];
 
-    public function posts(){
+    public function Posts(){
 
-        return $this->belongsToMany(Post::class)->withTimestamps();
+        return $this->belongsTo(Post::class);
         
     }
 }

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace App\Blogapi\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Category;
-use App\Models\Comment;
+use App\Blogapi\Models\Category;
+use App\Blogapi\Models\Comment;
 
 class Post extends Model
 {
