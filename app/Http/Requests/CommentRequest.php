@@ -27,7 +27,7 @@ class CommentRequest extends FormRequest
             'post_id'   => 'required',
             'customer'  => 'required',
             'text'      => 'required',
-            'like'      => 'required'
+            'likes'      => 'required'
         ];
     }
 }
